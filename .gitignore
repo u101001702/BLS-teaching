@@ -1,0 +1,6 @@
+# 只上傳教學網頁，其餘（投影片、影片、課程計畫）不進 git
+/*
+!/index.html
+!/figs/
+!/.gitignore
+!/README.md

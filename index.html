@@ -1,0 +1,779 @@
+<title>成人 BLS 2025</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+TC:wght@400;500;700;900&display=swap">
+<style>
+/* Layout: sticky chapter rail on the left (desktop) / scrolling chip bar (phone); one reading column; "monitor readout" key-number strip as the hero. */
+:root{
+  --bg:#f3f5f7; --surface:#ffffff; --sunk:#e9edf1; --ink:#15202b; --muted:#566370; --line:#d6dce2;
+  --accent:#c4262e; --accent-soft:#fbe6e7; --accent-ink:#9c1c23;
+  --c1:#17733a; --c1-bg:#ddf2e4; --c2a:#7a5f00; --c2a-bg:#fbefc2; --c2b:#a8470a; --c2b-bg:#fde3cf; --c3:#a8201a; --c3-bg:#fadcd9;
+  --ok:#17733a; --bad:#a8201a;
+  --f-display:"Archivo","Noto Sans TC",system-ui,sans-serif;
+  --f-body:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --base:16px;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e1318; --surface:#151c23; --sunk:#1b242d; --ink:#e4e9ee; --muted:#9aa7b3; --line:#2a3540;
+  --accent:#ff6b70; --accent-soft:#3a1a1d; --accent-ink:#ff9ea1;
+  --c1:#7fd9a0; --c1-bg:#163322; --c2a:#f2d36b; --c2a-bg:#33290b; --c2b:#ffad73; --c2b-bg:#3a2210; --c3:#ff8a80; --c3-bg:#3d1714;
+  --ok:#7fd9a0; --bad:#ff8a80; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0e1318; --surface:#151c23; --sunk:#1b242d; --ink:#e4e9ee; --muted:#9aa7b3; --line:#2a3540;
+  --accent:#ff6b70; --accent-soft:#3a1a1d; --accent-ink:#ff9ea1;
+  --c1:#7fd9a0; --c1-bg:#163322; --c2a:#f2d36b; --c2a-bg:#33290b; --c2b:#ffad73; --c2b-bg:#3a2210; --c3:#ff8a80; --c3-bg:#3d1714;
+  --ok:#7fd9a0; --bad:#ff8a80; color-scheme:dark}
+html.big{--base:19px}
+html{scroll-behavior:smooth;scroll-padding-top:72px}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:var(--base);line-height:1.75;-webkit-font-smoothing:antialiased}
+a{color:var(--accent-ink)}
+h1,h2,h3{font-family:var(--f-display);line-height:1.25;text-wrap:balance;margin:0}
+h2{font-size:1.75em;font-weight:800;letter-spacing:-.01em}
+h3{font-size:1.2em;font-weight:700;margin-top:1.8em}
+p{margin:.6em 0}
+.mono{font-family:var(--f-mono)}
+.wrap{display:grid;grid-template-columns:220px minmax(0,1fr);gap:40px;max-width:1180px;margin:0 auto;padding-inline:24px}
+@media (max-width:980px){.wrap{grid-template-columns:minmax(0,1fr);gap:0;padding-inline:16px}}
+
+/* top bar */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.topbar-in{max-width:1180px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:12px}
+@media (max-width:980px){.topbar-in{padding-inline:16px}}
+.brand{font-family:var(--f-display);font-weight:800;letter-spacing:.02em;display:flex;align-items:center;gap:8px;white-space:nowrap}
+.brand svg{width:34px;height:18px;flex:none}
+.tools{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.btn{font:inherit;font-size:.82em;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 12px;cursor:pointer;white-space:nowrap}
+.btn:hover{border-color:var(--accent)}
+.btn[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.btn:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chipnav{display:none;overflow-x:auto;gap:6px;padding:0 16px 10px;scrollbar-width:none}
+.chipnav::-webkit-scrollbar{display:none}
+.chipnav a{flex:none;font-size:.82em;text-decoration:none;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:3px 11px}
+@media (max-width:980px){.chipnav{display:flex}}
+
+/* side rail */
+.rail{position:sticky;top:76px;align-self:start;max-height:calc(100vh - 96px);overflow:auto;padding-block:28px}
+.rail ol{list-style:none;margin:0;padding:0;counter-reset:ch}
+.rail li a{display:grid;grid-template-columns:28px 1fr;gap:6px;text-decoration:none;color:var(--muted);font-size:.9em;padding:6px 8px;border-radius:8px;line-height:1.4}
+.rail li a span{font-family:var(--f-mono);font-size:.85em;opacity:.7}
+.rail li a:hover{color:var(--ink);background:var(--sunk)}
+.rail li a.on{color:var(--ink);background:var(--surface);box-shadow:inset 3px 0 0 var(--accent)}
+@media (max-width:980px){.rail{display:none}}
+main{min-width:0;padding-block:28px 120px}
+
+/* hero */
+.hero{padding-block:8px 8px}
+.eyebrow{font-family:var(--f-mono);font-size:.78em;letter-spacing:.12em;text-transform:uppercase;color:var(--accent-ink)}
+.hero h1{font-size:clamp(2em,5.4vw,3.4em);font-weight:800;letter-spacing:-.02em;margin-top:.2em}
+.hero .lede{color:var(--muted);max-width:60ch}
+.ecg{display:block;width:100%;height:56px;margin:18px 0 6px}
+.ecg path{fill:none;stroke:var(--accent);stroke-width:2;stroke-linejoin:round;stroke-dasharray:1400;stroke-dashoffset:1400;animation:draw 2.4s ease-out .2s forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.readout{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:6px}
+@media (max-width:760px){.readout{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.readout div{background:var(--surface);padding:14px 16px}
+.readout b{display:block;font-family:var(--f-display);font-weight:800;font-size:1.75em;line-height:1.1;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.readout b small{font-size:.5em;font-weight:700;color:var(--muted);margin-left:3px}
+.readout span{font-size:.82em;color:var(--muted);line-height:1.4;display:block;margin-top:4px}
+.readout .hot b{color:var(--accent)}
+.src{font-size:.82em;color:var(--muted);margin-top:14px}
+
+/* sections */
+section.ch{padding-top:56px}
+.chhead{display:flex;align-items:baseline;gap:14px;border-bottom:2px solid var(--ink);padding-bottom:10px;margin-bottom:14px}
+.chhead .num{font-family:var(--f-mono);font-weight:600;color:var(--accent-ink);font-size:.95em}
+.chhead .tag{margin-left:auto;font-size:.75em;color:var(--muted);font-family:var(--f-mono);white-space:nowrap}
+.synopsis{color:var(--ink);background:var(--sunk);border-radius:10px;padding:12px 16px;margin:12px 0}
+.synopsis::before{content:"重點摘要";display:block;font-size:.72em;letter-spacing:.12em;color:var(--muted);font-weight:700;margin-bottom:2px}
+.note{border-left:3px solid var(--accent);padding:4px 0 4px 14px;margin:14px 0}
+.note b.lbl{color:var(--accent-ink);font-size:.82em;letter-spacing:.06em;display:block}
+.carry{display:inline-block;font-size:.75em;color:var(--muted);border:1px dashed var(--line);border-radius:6px;padding:1px 8px;margin-left:6px;vertical-align:middle;font-family:var(--f-body);font-weight:500}
+.new{display:inline-block;font-size:.72em;color:var(--accent-ink);background:var(--accent-soft);border-radius:6px;padding:1px 8px;margin-left:6px;vertical-align:middle;font-weight:700;font-family:var(--f-body)}
+
+/* recommendation list */
+.recs{display:grid;gap:8px;margin:12px 0}
+.rec{display:grid;grid-template-columns:76px minmax(0,1fr);gap:14px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.rec .badge{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;border-radius:8px;padding:6px 4px;text-align:center;align-self:start}
+.badge .cor{font-family:var(--f-display);font-weight:800;font-size:1.05em;line-height:1.1}
+.badge .loe{font-family:var(--f-mono);font-size:.72em;line-height:1.1}
+.k1 .badge{background:var(--c1-bg);color:var(--c1)} .k2a .badge{background:var(--c2a-bg);color:var(--c2a)}
+.k2b .badge{background:var(--c2b-bg);color:var(--c2b)} .k3 .badge{background:var(--c3-bg);color:var(--c3)}
+.rec .zh{font-weight:500}
+.rec .en{display:none;font-size:.85em;color:var(--muted);margin-top:6px;line-height:1.55;font-family:var(--f-body)}
+html.show-en .rec .en{display:block}
+.rec.dim{display:none}
+.filterbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center;font-size:.85em;color:var(--muted);margin-top:18px}
+
+/* evidence details */
+details.ev{border:1px solid var(--line);border-radius:10px;background:var(--surface);margin:10px 0}
+details.ev summary{cursor:pointer;padding:10px 14px;font-weight:700;font-size:.92em;list-style:none;display:flex;gap:8px;align-items:center}
+details.ev summary::-webkit-details-marker{display:none}
+details.ev summary::before{content:"＋";color:var(--accent);font-family:var(--f-mono)}
+details.ev[open] summary::before{content:"－"}
+details.ev .body{padding:0 16px 12px;font-size:.92em}
+details.ev ul{padding-left:1.2em;margin:.4em 0}
+details.ev li{margin:.3em 0}
+
+/* figures */
+figure{margin:16px 0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;overflow:hidden}
+figure img{display:block;margin:0 auto;max-width:100%;height:auto}
+figcaption{font-size:.82em;color:#4a5560;margin-top:8px;line-height:1.5}
+.figrow{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:700px){.figrow{grid-template-columns:minmax(0,1fr)}}
+.figrow figure{margin:0}
+
+/* tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--line);margin-top:16px;overflow-x:auto}
+.tabs button{font:inherit;font-size:.9em;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:8px 12px;cursor:pointer;white-space:nowrap}
+.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--accent);font-weight:700}
+.subtabs{display:flex;gap:6px;margin:12px 0}
+
+/* flowchart */
+.flow{display:grid;gap:0;margin:14px 0}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;position:relative}
+.step.start{border-color:var(--c1);background:var(--c1-bg)}
+.step.decide{border:2px solid var(--accent);background:var(--accent-soft)}
+.step.cpr{border:2px solid var(--ink)}
+.step ul{margin:.2em 0;padding-left:1.2em}
+.step h4{margin:0 0 2px;font-size:.95em;font-family:var(--f-display)}
+.arrow{height:22px;display:flex;justify-content:center}
+.arrow::before{content:"";width:2px;background:var(--muted);height:100%}
+.branches{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.branches.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:700px){.branches,.branches.two{grid-template-columns:minmax(0,1fr)}}
+.branch .cond{font-weight:700;color:var(--accent-ink);font-size:.86em;margin-bottom:4px}
+.foot{font-size:.82em;color:var(--muted);margin-top:8px}
+
+/* tables */
+.tblwrap{overflow-x:auto;margin:12px 0;border:1px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.9em;min-width:520px}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{background:var(--sunk);font-weight:700}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+
+/* top10 */
+.top10{list-style:none;padding:0;margin:14px 0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;counter-reset:t}
+@media (max-width:760px){.top10{grid-template-columns:minmax(0,1fr)}}
+.top10 li{counter-increment:t;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px 10px 52px;position:relative}
+.top10 li::before{content:counter(t,decimal-leading-zero);position:absolute;left:14px;top:10px;font-family:var(--f-mono);font-weight:600;color:var(--accent)}
+
+/* quiz */
+.q{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0}
+.q .stem{font-weight:700}
+.q .opts{display:grid;gap:6px;margin-top:8px}
+.q button.opt{font:inherit;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 12px;color:var(--ink);cursor:pointer}
+.q button.opt:hover:not(:disabled){border-color:var(--accent)}
+.q button.opt.right{border-color:var(--ok);background:var(--c1-bg);color:var(--c1);font-weight:700}
+.q button.opt.wrong{border-color:var(--bad);background:var(--c3-bg);color:var(--c3)}
+.q button.opt:disabled{cursor:default}
+.q .exp{margin-top:8px;font-size:.9em;color:var(--muted)}
+.score{position:sticky;top:70px;z-index:5;display:inline-flex;gap:10px;align-items:center;background:var(--ink);color:var(--bg);border-radius:999px;padding:4px 14px;font-size:.85em;font-family:var(--f-mono)}
+
+/* metronome */
+.metro{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;align-items:center;gap:8px;background:var(--ink);color:var(--bg);border-radius:999px;padding:6px 8px 6px 6px;box-shadow:0 6px 24px rgba(0,0,0,.25)}
+.metro .dot{width:34px;height:34px;border-radius:50%;background:var(--accent);flex:none;display:grid;place-items:center;transition:transform .06s}
+.metro .dot.beat{transform:scale(1.25)}
+.metro .dot svg{width:16px;height:16px}
+.metro button{font:inherit;font-size:.8em;background:none;border:1px solid color-mix(in srgb,var(--bg) 35%,transparent);color:var(--bg);border-radius:999px;padding:3px 9px;cursor:pointer}
+.metro button[aria-pressed="true"]{background:var(--bg);color:var(--ink)}
+.metro .lbl{font-family:var(--f-mono);font-size:.78em;padding-right:4px}
+@media (max-width:480px){.metro .lbl{display:none}}
+.footer{margin-top:64px;font-size:.82em;color:var(--muted);border-top:1px solid var(--line);padding-top:16px}
+</style>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <div class="brand"><svg viewBox="0 0 34 18" aria-hidden="true"><path d="M0 10h9l3-7 4 14 4-12 2 5h12" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linejoin="round"/></svg>成人 BLS 2025</div>
+    <div class="tools">
+      <button class="btn" id="btn-en" aria-pressed="false">英文原文</button>
+      <button class="btn" id="btn-big" aria-pressed="false">投影模式</button>
+    </div>
+  </div>
+  <nav class="chipnav" id="chipnav" aria-label="章節"></nav>
+</header>
+
+<div class="wrap">
+<aside class="rail"><ol id="rail"></ol></aside>
+<main>
+
+<section class="hero" id="top" data-nav="開場">
+  <div class="eyebrow">AHA Guidelines for CPR &amp; ECC · Part 7</div>
+  <h1>成人基本救命術 2025</h1>
+  <p class="lede">2025 AHA 成人 BLS 指引逐條整理。涵蓋辨識心跳停止、啟動緊急應變、高品質 CPR、AED 使用、通氣與呼吸道異物哽塞（FBAO）。有青春期徵象的病人，一律依成人指引處理。</p>
+  <svg class="ecg" viewBox="0 0 1000 56" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30 H120 l8-6 8 6 H170 l6 4 10-30 10 44 8-18 H300 l10-8 14 8 H420 l8-6 8 6 H470 l6 4 10-30 10 44 8-18 H600 c20 0 30-14 40-14 s20 22 30 18 s20-20 30-12 s20 18 30 10 s20-16 30-6 s20 8 30 2 s20-4 30 0 H1000"/></svg>
+  <div class="readout" aria-label="高品質 CPR 關鍵數字">
+    <div class="hot"><b>100–120<small>/min</small></b><span>按壓速率（2a, B-NR）</span></div>
+    <div class="hot"><b>5–6<small>cm</small></b><span>按壓深度：至少 5 cm、不超過 6 cm（1, B-NR）</span></div>
+    <div><b>≤10<small>秒</small></b><span>醫護人員檢查脈搏的時間上限</span></div>
+    <div><b>30:2</b><span>尚未放置進階呼吸道前的按壓：通氣比</span></div>
+    <div><b>≥60<small>%</small></b><span>胸外按壓比率 CCF 最低目標；高效團隊可 &gt;80%</span></div>
+    <div><b>~2<small>分鐘</small></b><span>約每 2 分鐘（或約 5 個 30:2 循環）換人按壓</span></div>
+    <div><b>1<small>次 / 6 秒</small></b><span>有脈搏、沒有正常呼吸：每分鐘 10 次通氣</span></div>
+    <div><b>5+5</b><span>嚴重 FBAO：5 次背擊 + 5 次腹戳，反覆循環</span></div>
+  </div>
+  <p class="src">出處：Kleinman ME, et al. Part 7: Adult Basic Life Support. <i>Circulation</i>. 2025;152(suppl 2):S448–S478. doi:10.1161/CIR.0000000000001369。圖片截自原文 PDF（© 2025 American Heart Association），僅供教學使用。</p>
+</section>
+
+<section class="ch" id="top10" data-nav="Top 10 重點">
+  <div class="chhead"><span class="num">00</span><h2>Top 10 帶回家的重點</h2></div>
+  <ol class="top10">
+    <li>成人心跳停止，原則上<b>就地急救</b>，只要能安全、有效地做高品質 CPR。</li>
+    <li>確認成人心跳停止後，<b>單獨一位施救者先啟動緊急應變系統</b>，再立刻開始 CPR。</li>
+    <li>按壓時，病人的<b>軀幹高度約在施救者膝蓋的高度</b>。</li>
+    <li>醫護人員對所有成人心跳停止（無論心因性或非心因性），做<b>按壓加通氣</b>是合理的。</li>
+    <li>通氣量給到<b>看得見胸部起伏</b>即可，避免通氣不足與過度通氣。</li>
+    <li><b>不建議常規使用機械 CPR 裝置</b>。</li>
+    <li>沒有正常呼吸但有脈搏：<b>每 6 秒 1 次通氣（每分鐘 10 次）</b>。</li>
+    <li>肥胖病人的 CPR，<b>技術與一般體重病人相同</b>。</li>
+    <li>成人嚴重 FBAO：<b>5 次背擊後接 5 次腹戳</b>，反覆循環，直到異物排出或病人失去反應。</li>
+    <li>成人心跳停止 CPR 時，施救者使用<b>個人防護裝備（PPE）</b>是合理的。</li>
+  </ol>
+</section>
+
+<section class="ch" id="bg" data-nav="背景與目標">
+  <div class="chhead"><span class="num">01</span><h2>流行病學與 2030 目標</h2><span class="tag">美國資料</span></div>
+  <div class="tblwrap"><table>
+    <thead><tr><th>項目</th><th>數字</th><th>說明</th></tr></thead>
+    <tbody>
+      <tr><td>OHCA 年發生數（EMS 處理）</td><td class="num">356,000</td><td>約每 10 萬人 83 例，各州差異大；COVID-19 期間存活率下降</td></tr>
+      <tr><td>OHCA 存活出院（CARES 2024）</td><td class="num">10.5%</td><td>神經學預後良好約 8.2%；CARES 涵蓋 37 州、約 56% 美國人口</td></tr>
+      <tr><td>發生在公共場所</td><td class="num">18%</td><td>多數發生在住家</td></tr>
+      <tr><td>旁觀者 CPR 比率</td><td class="num">47.7%</td><td>地區、種族、性別、社經地位間有明顯差異</td></tr>
+      <tr><td>旁觀者使用 AED</td><td class="num">7.9%</td><td></td></tr>
+      <tr><td>IHCA 年發生數</td><td class="num">292,000</td><td>約 60% 在加護病房、急診、手術室等急性照護區；40% 在一般病房</td></tr>
+      <tr><td>IHCA 存活出院</td><td class="num">26.7% → 18.8% → 23.6%</td><td>COVID-19 前 → 疫情低點 → 2023 年</td></tr>
+      <tr><td>民眾持有有效 CPR 訓練（2015）</td><td class="num">18%</td><td>弱勢與低收入族群更低</td></tr>
+    </tbody>
+  </table></div>
+  <div class="note"><b class="lbl">AHA 2030 Impact Goals 的前兩項都跟 BLS 有關</b>
+    ① 成人旁觀者 CPR 比率提高到 <b>&gt;50%</b>；② EMS 抵達前就貼上 AED 的比例提高到 <b>&gt;20%</b>。</div>
+  <p>早期高品質 CPR 與及時電擊，是與成人心跳停止預後改善最相關的介入。辨識、啟動緊急應變、按壓與通氣、AED 電擊，構成生存之鏈的前幾環，要先做好，病人才能從後續進階治療受益。</p>
+  <details class="ev"><summary>這份指引怎麼產生、適用範圍</summary><div class="body">
+    <ul>
+      <li>取代 2020 版成人 BLS 指引（除非另有註明）。依據 ILCOR 2020–2024 年 CoSTR 的系統性回顧、範圍回顧與證據更新。</li>
+      <li>沒有重新做證據回顧的主題，沿用 2020 年建議與支持文字，各節摘要會註明（本網站標為「沿用 2020」）。</li>
+      <li>適用對象：未受訓與受過訓練的民眾、醫護人員。處理心跳停止，也處理呼吸停止與 FBAO。</li>
+      <li>有青春期徵象者依成人指引；兒童見 Part 6 Pediatric BLS。鴉片類藥物的細節見 Part 10 Special Circumstances。</li>
+      <li>建議表格的排列順序依 COR 再依 LOE，<b>不代表急救步驟順序</b>；步驟順序請看演算法。</li>
+      <li>2025 年三張演算法：醫護人員版（新增鴉片類拮抗劑，用於呼吸停止與心跳停止）、<b>新的</b>民眾版、<b>新的</b>成人 FBAO 版。</li>
+    </ul></div></details>
+</section>
+
+<section class="ch" id="algo" data-nav="三張演算法">
+  <div class="chhead"><span class="num">02</span><h2>演算法</h2><span class="tag">Figure 1–3</span></div>
+  <div class="tabs" role="tablist" id="algotabs">
+    <button role="tab" aria-selected="true" data-t="hcp">醫護人員版</button>
+    <button role="tab" aria-selected="false" data-t="lay">民眾版 <span class="new">新</span></button>
+    <button role="tab" aria-selected="false" data-t="fbao">異物哽塞 FBAO <span class="new">新</span></button>
+  </div>
+
+  <div class="tabpanel" data-p="hcp">
+    <div class="subtabs" data-group="hcp"><button class="btn" aria-pressed="true" data-v="zh">中文流程</button><button class="btn" aria-pressed="false" data-v="img">原文圖</button></div>
+    <div data-view="zh">
+      <div class="flow">
+        <div class="step start"><h4>確認現場安全</h4></div>
+        <div class="arrow"></div>
+        <div class="step"><ul><li>檢查反應</li><li>大聲呼叫附近的人幫忙</li><li>啟動緊急應變系統（台灣撥 119／院內急救代碼）</li><li>派人去拿 AED／去顫器</li></ul></div>
+        <div class="arrow"></div>
+        <div class="step decide"><h4>同時看呼吸、摸脈搏</h4>沒有呼吸或只有喘息？<b>10 秒內</b>有沒有<b>明確</b>摸到脈搏？</div>
+        <div class="arrow"></div>
+        <div class="branches">
+          <div class="step branch"><div class="cond">呼吸正常、有脈搏</div>持續監測，直到進階救護到達。</div>
+          <div class="step branch"><div class="cond">呼吸異常、有脈搏</div><ul><li>給予通氣：<b>每 6 秒 1 次</b>（每分鐘 10 次）</li><li>每 2 分鐘檢查脈搏；沒脈搏就開始 CPR</li><li>疑似鴉片類過量：有的話給拮抗劑（如 naloxone）</li></ul></div>
+          <div class="step branch"><div class="cond">沒有呼吸或只有喘息、摸不到脈搏</div>→ 開始 CPR</div>
+        </div>
+        <div class="arrow"></div>
+        <div class="step cpr"><h4>開始 CPR</h4><ul><li>30 次按壓 + 2 次通氣，反覆循環</li><li>AED／去顫器一到立刻使用</li><li>疑似鴉片類過量：考慮給予拮抗劑（如 naloxone）</li></ul></div>
+        <div class="arrow"></div>
+        <div class="step"><h4>AED 到達 → 分析心律：可電擊嗎？</h4></div>
+        <div class="arrow"></div>
+        <div class="branches two">
+          <div class="step branch"><div class="cond">是，可電擊</div><ul><li>電擊 1 次，<b>立刻</b>恢復 CPR 2 分鐘（直到 AED 提示分析心律）</li><li>持續到 ALS 人員接手或病人開始活動</li></ul></div>
+          <div class="step branch"><div class="cond">否，不可電擊</div><ul><li><b>立刻</b>恢復 CPR 2 分鐘（直到 AED 提示分析心律）</li><li>持續到 ALS 人員接手或病人開始活動</li></ul></div>
+        </div>
+        <p class="foot">＊有青春期徵象者，依成人處理。兩條分支都回到「分析心律」形成循環。</p>
+      </div>
+    </div>
+    <div data-view="img" hidden><figure><img src="figs/fig1-hcp-algorithm.png" alt="Figure 1 成人 BLS 醫護人員演算法原圖" loading="lazy"><figcaption>Figure 1. Adult Basic Life Support Algorithm for Health Care Professionals.</figcaption></figure></div>
+  </div>
+
+  <div class="tabpanel" data-p="lay" hidden>
+    <div class="subtabs" data-group="lay"><button class="btn" aria-pressed="true" data-v="zh">中文流程</button><button class="btn" aria-pressed="false" data-v="img">原文圖</button></div>
+    <div data-view="zh">
+      <div class="flow">
+        <div class="step decide"><h4>沒有反應；沒有呼吸或呼吸異常（例如喘息）</h4></div>
+        <div class="arrow"></div>
+        <div class="branches">
+          <div class="step"><div class="cond">① 啟動緊急應變</div>撥 119，手機開擴音</div>
+          <div class="step"><div class="cond">② 開始 CPR</div>用力壓、快快壓，壓在胸部中央</div>
+          <div class="step"><div class="cond">③ 拿 AED</div>或請別人去拿</div>
+        </div>
+        <div class="arrow"></div>
+        <div class="step cpr"><h4>貼上 AED 貼片，照 AED 指示做</h4>恢復 CPR 2 分鐘</div>
+        <div class="arrow"></div>
+        <div class="step">疑似鴉片類過量：有的話給一劑 naloxone，然後繼續 CPR。</div>
+        <div class="arrow"></div>
+        <div class="step">依 AED 提示，持續 CPR／AED 循環。</div>
+      </div>
+    </div>
+    <div data-view="img" hidden><figure><img src="figs/fig2-lay-algorithm.png" alt="Figure 2 民眾版成人 BLS 演算法原圖" loading="lazy" style="max-height:900px"><figcaption>Figure 2. Adult Basic Life Support Algorithm for Lay Rescuers.</figcaption></figure></div>
+  </div>
+
+  <div class="tabpanel" data-p="fbao" hidden>
+    <div class="subtabs" data-group="fbao"><button class="btn" aria-pressed="true" data-v="zh">中文流程</button><button class="btn" aria-pressed="false" data-v="img">原文圖</button></div>
+    <div data-view="zh">
+      <div class="flow">
+        <div class="step start"><h4>確認現場安全</h4></div>
+        <div class="arrow"></div>
+        <div class="step decide"><h4>有沒有嚴重 FBAO 的徵象？</h4>咳嗽無力或咳不出來 · 無法說話 · 膚色改變（發紺）· 意識改變 · 呼吸停止</div>
+        <div class="arrow"></div>
+        <div class="branches two">
+          <div class="step branch"><div class="cond">沒有（輕度）</div><ul><li>鼓勵咳嗽</li><li>持續觀察是否惡化成嚴重 FBAO</li></ul></div>
+          <div class="step branch"><div class="cond">有（嚴重）</div><ul><li>啟動緊急應變系統</li><li>評估病人有沒有反應</li></ul></div>
+        </div>
+        <div class="arrow"></div>
+        <div class="branches two">
+          <div class="step branch"><div class="cond">有反應</div><ul><li><b>5 次背擊</b>，接著 <b>5 次腹戳</b>，反覆循環</li><li>直到異物排出或病人失去反應</li><li>異物排出後持續監測，直到進階救護到達</li></ul></div>
+          <div class="step branch"><div class="cond">沒有反應</div><ul><li>開始 CPR，<b>從按壓開始</b>，參照 BLS 演算法</li><li>給通氣前，先看嘴裡有沒有看得到的異物</li><li>持續到進階救護到達</li></ul></div>
+        </div>
+        <p class="foot">＊懷孕後期，或施救者無法環抱病人腹部時：改用 <b>5 次胸戳</b>取代腹戳。</p>
+      </div>
+    </div>
+    <div data-view="img" hidden><figure><img src="figs/fig3-fbao-algorithm.png" alt="Figure 3 成人 FBAO 演算法原圖" loading="lazy"><figcaption>Figure 3. Adult Foreign-Body Airway Obstruction Algorithm.</figcaption></figure></div>
+  </div>
+</section>
+
+<div class="filterbar" id="filterbar">
+  <span>建議篩選：</span>
+  <button class="btn" aria-pressed="true" data-f="all">全部</button>
+  <button class="btn" aria-pressed="false" data-f="k1">只看 Class 1</button>
+  <button class="btn" aria-pressed="false" data-f="k3">只看 Class 3（不要做）</button>
+</div>
+
+<section class="ch" id="recog" data-nav="辨識與啟動">
+  <div class="chhead"><span class="num">03</span><h2>辨識心跳停止與開始急救</h2></div>
+  <h3 style="margin-top:.4em">辨識心跳停止</h3>
+  <div class="recs" data-g="recog"></div>
+  <div class="synopsis">脈搏不好摸，各級施救者都一樣，容易延誤按壓與求救。所以民眾靠「意識」和「呼吸」判斷，不摸脈搏。醫護人員可以摸脈搏，但重點是：<b>沒有明確摸到，就馬上開始 CPR</b>。</div>
+  <details class="ev"><summary>證據與細節：瀕死喘息（agonal breathing）</summary><div class="body"><ul>
+    <li>瀕死喘息是緩慢、不規則的喘氣，無法有效通氣。民眾常形容成「呼吸怪怪的」、「打呼」、「喘」。</li>
+    <li>出現在 <b>40%–60%</b> 的 OHCA，心跳停止越久越少見。</li>
+    <li>它是民眾誤判「不是心跳停止」的常見原因，造成按壓延誤。</li>
+    <li>對沒有心跳停止的昏迷病人按壓，造成傷害的風險很低；對真正心跳停止的人按壓，好處遠大於風險。</li>
+    <li>醫護人員常常摸脈搏摸太久，也常判斷錯誤。但看呼吸、咳嗽、肢體動作也沒有比摸脈搏更準。</li>
+  </ul></div></details>
+
+  <h3>民眾（未受訓或受過訓練）開始急救</h3>
+  <div class="recs" data-g="lay"></div>
+  <div class="synopsis">多數人有手機，可以開擴音同時撥號和按壓，也可以請第二個人撥 119。撥通後可獲得派遣員線上指導 CPR（T-CPR）、群眾 App 通知附近志工、派遣 EMS。沒受過訓練或不願意吹氣的民眾，做<b>只有按壓的 CPR</b> 就可以；受過訓練的人鼓勵加上人工呼吸。</div>
+  <details class="ev"><summary>證據與細節</summary><div class="body"><ul>
+    <li>日本全國推廣「只按壓 CPR」後，神經學預後良好的存活率上升，可能是因為願意出手的民眾變多。</li>
+    <li>大型觀察性研究（N=17,461）：先 CPR 再撥號 vs 先撥號再 CPR，存活出院沒有差異。指引選擇先撥號，是看重及早派遣和線上指導 CPR 的價值。</li>
+    <li>手邊沒有手機時，要不要先去求救再回來 CPR，視當地狀況決定，但要強調及時 CPR 的重要。</li>
+    <li>按壓 + 通氣 vs 只按壓：多數觀察性研究與一個大型 RCT 次級分析顯示加通氣預後較好，也有研究無差異。</li>
+    <li>PPE：2023 年系統性回顧，穿 PPE 對存活（1 個臨床研究）與 CPR 品質（17 個假人研究）沒有影響，但其中 2 個研究顯示疲勞度較高。穿戴 PPE 可能延誤開始 CPR。CPR 屬於會產生氣溶膠的處置。</li>
+  </ul></div></details>
+
+  <h3>醫護人員開始急救</h3>
+  <div class="recs" data-g="hcp"></div>
+  <div class="synopsis">從 2010 年起，順序改為 <b>C-A-B</b>（先按壓，再呼吸道、呼吸），縮短開始按壓的時間。2024 年 ILCOR 系統性回顧仍支持。醫護人員受過完整訓練，應同時提供按壓和通氣，也可以依最可能的病因調整後續處置。</div>
+  <details class="ev"><summary>證據與細節</summary><div class="body"><ul>
+    <li>假人研究：先按壓比先通氣更快開始按壓、更快給通氣、更快完成第一個循環。</li>
+    <li>只按壓不通氣時，動脈血含氧量會隨 CPR 時間下降；<b>窒息性心跳停止</b>（例如溺水、呼吸衰竭）更需要通氣。</li>
+    <li>單人醫護：開始按壓後，用口對面罩或 BVM 給通氣。</li>
+  </ul></div></details>
+</section>
+
+<section class="ch" id="airway" data-nav="打開呼吸道">
+  <div class="chhead"><span class="num">04</span><h2>打開呼吸道</h2></div>
+  <div class="recs" data-g="airway"></div>
+  <div class="synopsis">失去意識時，口咽肌肉鬆弛，<b>舌頭往後掉</b>是呼吸道阻塞的主因，會造成缺氧與高碳酸血症，甚至引發心跳停止或妨礙急救。口咽／鼻咽呼吸道可在舌頭和咽部之間撐出通道。</div>
+  <div class="figrow">
+    <figure><img src="figs/fig4-head-tilt.png" alt="壓額抬下巴法示意圖" loading="lazy"><figcaption>Figure 4. 壓額抬下巴法（head tilt–chin lift）。</figcaption></figure>
+    <div class="note" style="margin:0"><b class="lbl">呼吸道輔助器的禁忌</b>
+      <p><b>鼻咽呼吸道（NPA）</b>：懷疑顏面外傷；已知或疑似顱底骨折、嚴重凝血異常時，改用口咽呼吸道（曾有 2 篇個案報告 NPA 插入顱內）。</p>
+      <p><b>口咽呼吸道（OPA）</b>：作嘔反射還在時不要用。</p>
+      <p>放錯位置反而會把舌頭推向後方，造成阻塞。</p></div>
+  </div>
+  <details class="ev"><summary>證據與細節</summary><div class="body"><ul>
+    <li>壓額抬下巴的效果來自非心跳停止與影像學研究；沒有研究在心跳停止中比較它和其他手法。</li>
+    <li>一個回溯性研究：院內心跳停止時，呼吸道輔助器搭配 BVM，神經學預後較好。</li>
+    <li>環狀軟骨壓迫（cricoid pressure）：沒有證據能幫助通氣或減少吸入；系統性回顧顯示無法減少吸入，還可能妨礙放置進階呼吸道、阻礙 BVM 通氣時的氣流。</li>
+  </ul></div></details>
+
+  <h3>頭頸部外傷 <span class="carry">沿用 2020，無新證據</span></h3>
+  <div class="recs" data-g="trauma"></div>
+  <div class="synopsis">推下顎法（jaw thrust）造成的頭頸移動比壓額抬下巴少。但如果推下顎加呼吸道輔助器都打不開，就要改壓額抬下巴：<b>心跳停止病人的呼吸道暢通，比脊椎二次傷害的風險更重要</b>。民眾應以徒手限制脊椎活動，不要上硬式頸圈，頸圈會讓呼吸道更難維持、通氣更困難。</div>
+</section>
+
+<section class="ch" id="quality" data-nav="高品質 CPR">
+  <div class="chhead"><span class="num">05</span><h2>高品質 CPR</h2></div>
+
+  <h3 style="margin-top:.4em">位置與姿勢</h3>
+  <div class="recs" data-g="pos"></div>
+  <div class="figrow">
+    <figure><img src="figs/fig5-hand-position.png" alt="施救者位置與手部位置" loading="lazy"><figcaption>Figure 5. 施救者位置與按壓的手部位置。</figcaption></figure>
+    <figure><img src="figs/fig6-side-view.png" alt="病床上按壓的側面視角" loading="lazy"><figcaption>Figure 6. 側面視角：在床上按壓時，病人軀幹約在施救者膝蓋高度。</figcaption></figure>
+  </div>
+  <details class="ev"><summary>證據與細節：高度、手的位置、就地急救、俯臥</summary><div class="body"><ul>
+    <li><b>高度</b>：多個交叉 RCT 假人研究，跪在地上或跪在床上比站著按壓更深。病人軀幹<b>低於施救者膝蓋不超過 10 cm</b> 時深度較好。踩踏腳凳比站著好，但跪姿的深度與回彈又略優於腳凳。</li>
+    <li><b>跨坐</b>：在移動中的推床上，跨坐與跪姿效果相近、優於邊走邊壓，但要權衡施救者的安全與穩定。狹窄空間中（n=124 RCT），跨坐沒有比側邊按壓好。</li>
+    <li><b>手的位置</b>：2 個研究顯示壓胸骨下 1/3 比壓胸骨中段有較好的生理參數（動脈壓、EtCO₂），1 個無差異。影像研究顯示左心室多在兩乳頭連線下方，對應胸骨下半部；但壓太低會壓到劍突，效果較差。</li>
+    <li><b>慣用手</b>：一個 RCT（n=101）和一個觀察性研究（n=225）顯示慣用手貼胸骨時按壓品質較好；另一個小型 RCT（n=59）改善未達顯著。</li>
+    <li><b>就地急救</b>：T-CPR 研究中，<b>41%</b> 的個案因為搬移病人而延誤 CPR（多因施救者體力限制），存活出院機率明顯較低。這條建議不涉及「何時送醫」的決定。</li>
+    <li><b>硬板面</b>：院內建議使用背板；把氣墊床放氣或啟用床的「CPR 模式」可增加深度；地板是最理想的硬面。</li>
+    <li><b>俯臥</b>：2021 年 ILCOR 回顧 20 位在手術室或加護病房俯臥時心跳停止的成人。12 位直接俯臥 CPR，<b>全部 ROSC 並存活出院</b>；8 位先翻正再 CPR，ROSC 37.5%、存活出院 29%。</li>
+  </ul></div></details>
+
+  <h3>按壓中斷與 CCF</h3>
+  <div class="recs" data-g="ccf"></div>
+  <div class="synopsis">胸外按壓是心跳停止時唯一的前向血流來源。一停下來，冠狀動脈灌流壓幾乎立刻下降，ROSC 機會跟著下降。<b>CCF（chest compression fraction）</b>是急救過程中實際在按壓的時間比例。</div>
+  <details class="ev"><summary>證據與細節</summary><div class="body"><ul>
+    <li>整體 hands-on time（CCF）越高，存活越好；電擊前後暫停越短，ROSC 越好。</li>
+    <li>電擊後立即按壓：2 個 RCT（&gt;1000 人）顯示電擊後停下來看心律，存活沒有比較好；觀察性研究顯示沒有立刻恢復按壓時 ROSC 下降。</li>
+    <li>換手：按壓深度在 <b>90–120 秒</b>後開始變淺，速率則變化不大。每 1 分鐘換 vs 每 2 分鐘換，高品質按壓比例沒差；選 2 分鐘是因為剛好配合心律分析的暫停。</li>
+    <li><b>新證據</b>：ROC 資料分析發現，30:2 的暫停中，<b>不到一半</b>的暫停有給到有效通氣。有效通氣比例低的病人，ROSC、存活出院、神經學預後都較差。</li>
+    <li>CCF ≥60% 與較好預後相關，但研究異質性大，也有研究顯示 CCF 高反而存活較差。CCF 60% 是最低目標，高效團隊可達 &gt;80%。</li>
+    <li>CPR 中只該為「已證實能改善預後」的處置而中斷；目前資料不足以支持或反對在 CPR 期間摸脈搏（在沒有侵入性監測的環境）。</li>
+  </ul></div></details>
+
+  <h3>按壓深度、速率與回彈</h3>
+  <div class="recs" data-g="depth"></div>
+  <details class="ev"><summary>證據與細節</summary><div class="body"><ul>
+    <li><b>深度</b>：2020 ILCOR 範圍回顧（12 個研究、&gt;10,700 位病人）。深度 ≥5 cm 比 &lt;4 cm 存活出院較好；&gt;6 cm 存活較差。</li>
+    <li><b>速率</b>：3 個研究（&gt;13,700 人）顯示 100–119/min 存活出院最好。一個 RCT 比較 100 vs 120/min 無差異。一個研究（n=222）121–140/min 的 ROSC 較好，但寫作小組更看重存活而非 ROSC。</li>
+    <li><b>回饋裝置</b>：2024 ILCOR 範圍回顧肯定先前建議。統合分析顯示回饋裝置與 ROSC、存活出院改善相關（神經學預後無差異）。一個 IHCA RCT 用聲音回饋深度與回彈，存活出院改善 <b>25.6%</b>。</li>
+    <li><b>回彈</b>：按壓放鬆速度（release velocity）的兩個研究結果不一致（其一顯示 &gt;400 mm/s 存活較好）。豬隻研究顯示「靠在胸口上」（leaning）會降低冠狀動脈灌流。</li>
+    <li><b>Duty cycle</b>：2020 年建議 50%（按壓與放鬆時間相等），主要是因為好執行。一個 VF 院外研究（43% 存活出院）觀察到平均 duty cycle 39%。動物研究多顯示 &lt;50% 較好，但最佳值未知，暫不改變建議。</li>
+  </ul></div></details>
+</section>
+
+<section class="ch" id="vent" data-nav="通氣">
+  <div class="chhead"><span class="num">06</span><h2>通氣與按壓通氣比</h2></div>
+  <h3 style="margin-top:.4em">心跳停止時的通氣基本原則</h3>
+  <div class="recs" data-g="vent"></div>
+  <div class="synopsis">通氣與預後相關，但沒有進階呼吸道時很難做好：面罩漏氣、氣體跑進食道都很常見。<b>只按壓加被動給氧不能保證足夠通氣</b>，按壓還會降低功能肺餘量、造成肺塌陷。研究顯示，30:2 中<b>超過 50% 的暫停有讓肺部膨起</b>的病人，預後較好。</div>
+  <details class="ev"><summary>證據與細節：潮氣量、BVM 技巧、成人球</summary><div class="body"><ul>
+    <li>口對口：打開呼吸道、捏住鼻子、嘴巴密合、吹氣。使用屏障時，<b>口袋型面罩比面膜（face shield）有效</b>。BVM 或部分口袋面罩可加接氧氣。</li>
+    <li>插管成人要看到胸部起伏，需要約 <b>362–406 mL</b>（約 5–7 mL/kg）。</li>
+    <li>連續按壓時看不到胸部起伏；30:2 的暫停才能觀察。</li>
+    <li>用<b>兒童用球</b>給成人通氣常漏氣、潮氣量不足；使用<b>成人用球</b>與較高 ROSC 相關。</li>
+    <li>雙手壓面罩加推下顎，<b>優於單手 E-C 法</b>（拇指與食指成 C 形壓住面罩，其餘三指成 E 形勾住下顎）。兩位施救者時：一人雙手封面罩，另一人（可以是按壓者）在 30:2 的暫停擠球，兩人都要看胸部起伏。</li>
+    <li>只有一位施救者：可用雙手壓口袋面罩吹氣；若用 BVM，只能用單手封面罩。</li>
+    <li>施救者吸一口<b>正常</b>的氣而不是深吸，避免自己頭暈，也避免病人肺部過度膨脹。每口 1 秒是為了縮短按壓暫停。</li>
+    <li>過度通氣：胃脹氣、嘔吐、吸入、心輸出量下降。通氣不足：存活下降。兩者都有害。</li>
+  </ul></div></details>
+
+  <h3>特殊情況的通氣 <span class="carry">沿用 2020，無新證據</span></h3>
+  <div class="recs" data-g="ventsp"></div>
+  <p>因外傷、姿勢或封不住嘴巴時，可改用口對鼻（個案系列顯示可行、安全、有效）。氣切造口的病人若無法從口鼻通氣，可經造口通氣；用<b>圓形兒童面罩</b>蓋住造口比標準面罩更密合。氣切管路本身的處理不在本指引範圍。</p>
+
+  <h3>有脈搏、呼吸停止</h3>
+  <div class="recs" data-g="resp"></div>
+  <div class="synopsis">呼吸停止或呼吸無效的病人，若沒有及時通氣，心臟和大腦這些耗氧器官會不可逆受損。常見情境：鴉片類過量、ROSC 之後。有脈搏的人<b>呼吸停止 90 秒</b>，血氧就可能掉到危險程度；有效通氣可以很快把血氧救回來。</div>
+  <details class="ev"><summary>證據與細節</summary><div class="body"><ul>
+    <li>14 位全身麻醉、吸室內空氣的病人，呼吸停止 90 秒內血氧平均降到 <b>62.1%</b>（43.9%–81.9%）。</li>
+    <li>2024 年溺水指引：在心跳停止前就在水中給予呼吸支持，預後比上岸後才 CPR 好。</li>
+    <li>PreVent RCT：重症呼吸停止病人插管前，以每分鐘 10 次、看得到胸部起伏的 BVM 通氣，嚴重低血氧事件較少。</li>
+    <li>院內研究：低碳酸血症（通氣過多）、嚴重高碳酸血症（通氣過少）、兩者來回擺盪（通氣不穩定），1 個月神經學預後都比輕度高碳酸血症差。</li>
+  </ul></div></details>
+
+  <h3>按壓：通氣比</h3>
+  <div class="recs" data-g="ratio"></div>
+  <details class="ev"><summary>證據與細節：為什麼還是 30:2</summary><div class="body"><ul>
+    <li>多數研究顯示連續按壓與 30:2 的預後無差異。</li>
+    <li>民眾施救的統合分析（4 個 RCT）中，中斷式 CPR 存活較差，但其中 3 個研究用的是 15:2。</li>
+    <li>院前醫護人員做 30:2，比連續按壓加非同步通氣有較高的 ROSC、到院存活、神經學預後良好（存活出院無差異）。</li>
+    <li>ROC 連續按壓試驗回溯分析（26,810 位無進階呼吸道的非外傷 OHCA）：依計畫執行時，EMS 連續按壓加非同步通氣的存活<b>低於</b> 30:2；補值後整體差異不顯著。</li>
+    <li>關鍵理由：連續按壓時<b>看不到胸部起伏</b>，無法確認通氣是否足夠，而新證據顯示通氣量常常不足。所以寫作小組重視 30:2 能觀察胸部起伏的優點。</li>
+  </ul></div></details>
+</section>
+
+<section class="ch" id="defib" data-nav="電擊與 AED">
+  <div class="chhead"><span class="num">07</span><h2>電擊與 AED</h2></div>
+  <h3 style="margin-top:.4em">貼片位置</h3>
+  <div class="recs" data-g="pads"></div>
+  <figure><img src="figs/fig7-pad-placement.png" alt="去顫貼片放置位置示意圖" loading="lazy"><figcaption>Figure 7. 去顫貼片位置。採前側–側邊（anterolateral）放置時，側邊那片要貼在<b>腋中線</b>，不要貼得太前面。</figcaption></figure>
+  <div class="synopsis">貼片要直接貼皮膚，讓電流方向通過心肌，尤其是 VF 常起源的左心室。貼片越大、胸壁阻抗越低，成人用大片。女性接受公共場所 AED 的比例明顯比男性低，可能跟要露出胸部有關；<b>調整胸罩位置而不脫掉</b>，能減少旁觀者的不自在，以及怕被指控不當碰觸的顧慮。</div>
+  <details class="ev"><summary>證據與細節</summary><div class="body"><ul>
+    <li>前側–側邊、前–後、前–左肩胛下、前–右肩胛下四種位置，治療心室上或心室性心律不整的效果相當。</li>
+    <li>前後研究（207 位病人、1,023 次電擊）：前側–側邊 vs 前–後的電擊成功率 82.1% vs 82.2%。</li>
+    <li>另一研究：前–後位 ROSC 較高（OR 2.64；95% CI 1.50–4.65），但存活出院與神經學預後無差異；偏差風險大，寫作小組認為需要更多研究。</li>
+    <li>貼片直徑 8–12 cm 範圍內越大，阻抗越低。自黏貼片已大致取代電擊板。</li>
+    <li>胸罩：2024 ILCOR 範圍回顧，證據不足以支持常規脫除。豬隻研究（會議摘要）中 AED 貼片直接貼在<b>胸罩鋼圈上方</b>，第一次電擊成功率仍為 100%，沒有電弧、電流偏移或燒傷。</li>
+  </ul></div></details>
+
+  <h3>先 CPR 還是先電擊</h3>
+  <div class="recs" data-g="cprfirst"></div>
+  <div class="synopsis">VF／無脈性 VT 越早電擊越有效。但 VF 持續久了，心肌能量耗盡，電擊效果變差，先做一段 CPR 可以補充能量。不論哪種情況，都要<b>縮短電擊前後的中斷</b>。「電擊成功」指終止 VF／pVT，不一定會出現有灌流的心律。</div>
+  <details class="ev"><summary>證據與細節</summary><div class="body"><ul>
+    <li>ARREST 登錄（有目擊的院外 VF）：6 分鐘內第一次電擊，終止 VF 成功率 <b>93%</b>；延到 16 分鐘以上降到 <b>75%</b>。第一次電擊<b>每延遲 1 分鐘，存活出院機率下降 6%</b>。</li>
+    <li>比較短（約 30 秒）與長（最多 3 分鐘）的電擊前 CPR，電擊結果無差異；所以準備去顫器時做一段短 CPR 就夠了。</li>
+    <li>即使有監測，貼貼片、開機、充電也要時間，這段時間應持續 CPR。</li>
+  </ul></div></details>
+</section>
+
+<section class="ch" id="fbao" data-nav="異物哽塞 FBAO">
+  <div class="chhead"><span class="num">08</span><h2>成人呼吸道異物哽塞（FBAO）</h2><span class="tag">2025 有改變</span></div>
+  <div class="note"><b class="lbl">2025 的主要改變</b>成人嚴重 FBAO 改為 <b>5 次背擊 + 5 次腹戳</b>反覆循環，與嬰兒、兒童指引一致；並新增成人 FBAO 演算法。</div>
+  <h3>清醒病人</h3>
+  <div class="recs" data-g="fbao1"></div>
+  <div class="synopsis">FBAO 是美國意外死亡主因之一，2021 年超過 5,000 例。成人多因食物。<b>輕度（部分）阻塞</b>：會咳、呼吸困難，常可自行咳出，但可能惡化。<b>嚴重（完全）阻塞</b>：咳嗽無力或咳不出、無法說話、發紺、意識改變，很快會失去意識、呼吸停止、心跳停止。阻塞越久預後越差；民眾及時處理與存活、神經學預後改善相關。不管異物有沒有排出，都要啟動 EMS。</div>
+  <details class="ev"><summary>證據與細節：為什麼加入背擊</summary><div class="body"><ul>
+    <li>沒有 RCT 比較各種 FBAO 處置的效果或安全性。</li>
+    <li>世代研究（709 人）：<b>背擊</b>比腹戳有較高的排除率、<b>傷害較少</b>。</li>
+    <li>個案報告：腹戳曾造成主動脈剝離、胃破裂等致命傷害。</li>
+    <li>交替 5 背擊、5 腹戳，也是為了與嬰兒、兒童指引一致，方便教學與記憶。</li>
+    <li>FBAO 病人常需要多種處置才能排除，嚴重者常需 EMS 或醫院處理，所以一定要啟動緊急應變。</li>
+    <li>咳嗽能產生很高的呼吸道壓力，對部分阻塞很有效。</li>
+  </ul></div></details>
+
+  <h3>失去意識的病人</h3>
+  <div class="recs" data-g="fbao2"></div>
+  <p>失去意識後背擊、腹戳已不可行，心跳停止迫在眉睫。<b>胸外按壓本身就能產生足夠的呼吸道壓力把異物推出</b>。觀察性資料支持立即從按壓開始 CPR，不管有沒有脈搏，都與較好的神經學預後相關。移除看得到的異物可以避免通氣時再阻塞；不過沒有證據顯示有異物時通氣會讓阻塞更糟，理論上還可能把異物推進單側主支氣管、解除完全阻塞。</p>
+
+  <h3>特殊情況</h3>
+  <div class="recs" data-g="fbao3"></div>
+  <p>手抱不住肚子（例如體型大、坐輪椅）或懷孕後期時，腹戳做不到或不適合，改用胸戳，同樣能產生足夠壓力。攜帶式非電動抽吸式防噎裝置：有觀察性研究，但沒有證據顯示比背擊、腹戳好，安全性也未確立。</p>
+</section>
+
+<section class="ch" id="special" data-nav="肥胖與替代技術">
+  <div class="chhead"><span class="num">09</span><h2>肥胖病人與替代 CPR 技術</h2></div>
+  <h3 style="margin-top:.4em">肥胖病人</h3>
+  <div class="recs" data-g="obese"></div>
+  <div class="synopsis">美國超過 40% 成人肥胖，也是心因性猝死的重要危險因子。胸壁較厚，需要更大的力量才能達到深度，施救者也更快疲勞，要密切注意換手。</div>
+  <details class="ev"><summary>證據與細節</summary><div class="body"><ul>
+    <li>2024 ILCOR 範圍回顧（34 個觀察性研究）：沒有證據支持改變標準 CPR。肥胖與否，電擊成功率、2 分鐘內電擊比例、VF／pVT 終止都沒有差異。</li>
+    <li>院外若肥胖病人躺在床上，要仔細評估搬到硬面所需時間，避免延誤按壓。院內可用床的「CPR 模式」或硬床墊。</li>
+    <li>肥胖假人研究：部分背板（CPR board）沒有比直接在醫院床墊上按壓更容易達到足夠深度。直接在床墊上開始按壓，可減少延誤。</li>
+  </ul></div></details>
+
+  <h3>機械 CPR 與替代姿勢</h3>
+  <div class="recs" data-g="alt"></div>
+  <div class="synopsis">機械 CPR 有兩類：環胸壓迫的<b>負荷分散帶</b>，和前後壓迫的<b>氣動活塞</b>。<b>頭頂式按壓（over-the-head）</b>：施救者跪在病人頭頂，病人的頭在施救者兩膝之間，往下伸手壓胸骨，可同時給或不給通氣。適用於搬運中、搜救、雪崩、船上、狹窄空間等施救者無法在病人側邊的情境。</div>
+  <details class="ev"><summary>證據與細節：機械 CPR 的 RCT</summary><div class="body"><ul>
+    <li>多個大型 RCT（PARAMEDIC、LINC、CIRC、ASPIRE 等）與 ILCOR 系統性回顧：機械 CPR <b>沒有改善存活</b>。</li>
+    <li>PARAMEDIC：30 天存活無差異；30 天、3 個月、12 個月神經學預後較差（後兩者失聯 &gt;40%，限制解讀）。</li>
+    <li>ASPIRE 次級分析：機械組 4 小時存活下降，可能與第一次電擊延遲有關，試驗因可能有害而提前終止。</li>
+    <li>2 個小型觀察性研究顯示機械 CPR 肋骨與胸骨骨折較多，但 RCT 沒有重現。</li>
+    <li>可考慮機械 CPR 的情境：搬運中、人力或安全限制讓徒手 CPR 不實際、長時間急救但人手不足、高度傳染風險。</li>
+    <li>頭頂式按壓：多個假人 RCT 顯示按壓品質與側邊按壓相當，部分研究更好；但兩人標準 CPR（一人在頭端通氣、一人在側邊按壓）優於單人頭頂式。</li>
+    <li>用腳跟／腳按壓：觀察性研究可延長按壓時間、深度無差異；一個模擬 RCT 品質較差。資料有限且矛盾，無法建議支持或反對。</li>
+  </ul></div></details>
+</section>
+
+<section class="ch" id="cor" data-nav="COR 與 LOE">
+  <div class="chhead"><span class="num">10</span><h2>怎麼看 COR 與 LOE</h2><span class="tag">Table 1</span></div>
+  <p>COR（建議強度）和 LOE（證據等級）是分開判定的，任何 COR 都可能搭配任何 LOE。<b>LOE 是 C 不代表建議弱</b>，例如許多 Class 1 建議是 C-EO。</p>
+  <div class="recs">
+    <div class="rec k1"><div class="badge"><span class="cor">1</span><span class="loe">強</span></div><div>好處 &gt;&gt;&gt; 風險。用語：<i>is recommended / should</i>（建議、應該）。</div></div>
+    <div class="rec k2a"><div class="badge"><span class="cor">2a</span><span class="loe">中</span></div><div>好處 &gt;&gt; 風險。用語：<i>is reasonable / can be useful</i>（合理、可能有幫助）。</div></div>
+    <div class="rec k2b"><div class="badge"><span class="cor">2b</span><span class="loe">弱</span></div><div>好處 ≥ 風險。用語：<i>may / might be reasonable, may be considered</i>（或許合理、可以考慮）；效果未確立。</div></div>
+    <div class="rec k3"><div class="badge"><span class="cor">3</span><span class="loe">無益</span></div><div>好處 = 風險（中等強度，通常只配 LOE A 或 B）。用語：<i>is not recommended</i>（不建議）。</div></div>
+    <div class="rec k3"><div class="badge"><span class="cor">3</span><span class="loe">有害</span></div><div>風險 &gt; 好處（強）。用語：<i>potentially harmful / should not</i>（可能有害、不應該）。</div></div>
+  </div>
+  <div class="tblwrap"><table>
+    <thead><tr><th>LOE</th><th>意思</th><th>證據來源</th></tr></thead>
+    <tbody>
+      <tr><td class="num">A</td><td>高品質</td><td>&gt;1 個高品質 RCT、高品質 RCT 的統合分析、或 RCT 加高品質登錄研究佐證</td></tr>
+      <tr><td class="num">B-R</td><td>隨機</td><td>1 個以上中等品質 RCT，或其統合分析</td></tr>
+      <tr><td class="num">B-NR</td><td>非隨機</td><td>設計良好的非隨機、觀察性或登錄研究，或其統合分析</td></tr>
+      <tr><td class="num">C-LD</td><td>資料有限</td><td>設計或執行有限制的隨機／觀察性研究；人體生理或機轉研究</td></tr>
+      <tr><td class="num">C-EO</td><td>專家意見</td><td>基於臨床經驗的專家共識</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="ch" id="quiz" data-nav="隨堂測驗">
+  <div class="chhead"><span class="num">11</span><h2>隨堂測驗</h2></div>
+  <p>點選答案會立刻顯示解析與出處建議。<span class="score" id="score">0 / 0</span> <button class="btn" id="quiz-reset">重新作答</button></p>
+  <div id="quizbox"></div>
+</section>
+
+<div class="footer">整理自 2025 AHA Guidelines for CPR and ECC, Part 7: Adult Basic Life Support（Circulation 2025;152(suppl 2):S448–S478）。內容以原文為準；「台灣撥 119」為在地化補充。圖片 © 2025 American Heart Association，僅供教學。</div>
+</main>
+</div>
+
+<div class="metro" id="metro" aria-label="CPR 節拍器">
+  <button class="dot" id="m-toggle" aria-label="開始或停止節拍器" style="border:0;padding:0;cursor:pointer"><svg viewBox="0 0 16 16" id="m-icon"><path d="M4 2l10 6-10 6z" fill="#fff"/></svg></button>
+  <span class="lbl">節拍器</span>
+  <button data-bpm="100" aria-pressed="false">100</button>
+  <button data-bpm="110" aria-pressed="true">110</button>
+  <button data-bpm="120" aria-pressed="false">120</button>
+</div>
+
+<script>
+const R = {
+recog:[
+ ["1","C-LD","成人無意識／無反應，且沒有呼吸或呼吸異常（只有喘息），<b>民眾</b>應假設病人心跳停止。","If an adult is unconscious/unresponsive, with absent or abnormal breathing (ie, only gasping), the lay rescuer should assume the person is in cardiac arrest."],
+ ["1","C-LD","同樣情況下，<b>醫護人員</b>摸脈搏<b>不超過 10 秒</b>；沒有明確摸到脈搏，就應假設心跳停止。","If an adult is unconscious/unresponsive, with absent or abnormal breathing (ie, only gasping), the health care professional should check for a pulse for no more than 10 s and, if no definite pulse is felt, should assume the person is in cardiac arrest."]],
+lay:[
+ ["1","B-NR","所有民眾都應對疑似心跳停止的成人做胸外按壓。","All lay rescuers should provide chest compressions for adults with presumed cardiac arrest."],
+ ["1","B-NR","確認成人心跳停止後，<b>單獨施救者先啟動緊急應變系統</b>，再立刻開始 CPR，從按壓開始。","After identifying an adult in cardiac arrest, a lone responder should activate the emergency response system first, then immediately begin CPR, beginning with chest compressions."],
+ ["1","C-LD","單獨施救者有手機時，應啟動緊急應變系統<b>並立即</b>開始 CPR（開擴音，幾乎同時進行）。","For adults in cardiac arrest, a lone rescuer with a mobile phone should activate the emergency response system and immediately begin CPR, beginning with chest compressions."],
+ ["2a","B-R","受過 CPR 訓練的民眾，除了按壓再加上人工呼吸是合理的。","For lay rescuers trained in performing CPR, it is reasonable to provide ventilation (breaths) in addition to chest compressions for an adult in cardiac arrest."],
+ ["2a","C-LD","PPE 隨手可得時，CPR 時使用 PPE 是合理的。","When immediately available, it is reasonable for rescuers to use PPE during CPR for adult cardiac arrest."]],
+hcp:[
+ ["1","C-LD","單獨一位醫護人員，應<b>先按壓</b>而不是先通氣。","During adult cardiac arrest, a lone health care professional should commence with chest compressions rather than with ventilation."],
+ ["2a","C-LD","醫護人員對所有成人心跳停止（心因性或非心因性）都做按壓加通氣，是合理的。","It is reasonable for health care professionals to perform chest compressions and ventilation for all adult patients in cardiac arrest from either a cardiac or noncardiac cause."]],
+airway:[
+ ["1","C-EO","沒有懷疑頸椎受傷時，醫護人員與受訓民眾用<b>壓額抬下巴法</b>打開無反應病人的呼吸道。","For unresponsive adult patients, health care professionals and trained lay rescuers should open the airway by using a head tilt–chin lift maneuver when no cervical spine injury is suspected."],
+ ["2a","C-LD","已知或疑似<b>顱底骨折或嚴重凝血異常</b>時，優先用口咽呼吸道，而不是鼻咽呼吸道。","When managing the airway of an adult with known or suspected basal skull fracture or severe coagulopathy, an oropharyngeal airway is preferred compared with a nasopharyngeal airway."],
+ ["2b","C-EO","無意識、沒有咳嗽或作嘔反射的成人，使用呼吸道輔助器（口咽或鼻咽）幫助通氣，或許合理。","The use of an airway adjunct (eg, oropharyngeal or nasopharyngeal airway) may be reasonable in unconscious (unresponsive) adult patients with no cough or gag reflex to facilitate delivery of ventilation."],
+ ["3NB","C-LD","成人心跳停止<b>不建議常規使用環狀軟骨壓迫</b>。","The routine use of cricoid pressure in adult cardiac arrest is not recommended."]],
+trauma:[
+ ["1","C-EO","頭頸部外傷時，受訓施救者應用<b>推下顎法、不仰頭</b>打開呼吸道。","In cases of head and neck trauma, trained rescuers should open the airway of an adult by using a jaw thrust without head extension."],
+ ["1","C-EO","推下顎加呼吸道輔助器仍無法打開時，受訓施救者應改用壓額抬下巴法。","For an adult with head and neck trauma, if the airway cannot be opened with a jaw thrust and airway adjunct insertion, trained rescuers should open the airway by using a head tilt–chin lift."],
+ ["3H","C-LD","頭頸部外傷時，民眾<b>不應使用硬式頸椎固定器</b>限制脊椎活動，未受訓者使用可能有害。","In the setting of an adult with head and neck trauma, lay rescuers should not use rigid cervical devices for spinal motion restriction because their use by untrained rescuers may be harmful."]],
+pos:[
+ ["1","B-NR","按壓時，病人軀幹盡量在施救者<b>膝蓋的高度</b>。","In adult cardiac arrest, rescuers should perform chest compressions with the patient’s torso at approximately the level of the rescuer’s knees whenever possible."],
+ ["1","C-LD","一手掌根放在胸部中央（<b>胸骨下半部到下 1/3</b>），另一手掌根疊在上面。","When providing chest compressions for an adult, the rescuer should place the heel of one hand on the center (middle) of the person’s chest (the lower half to lower third of the sternum) and the heel of the other hand on top of the first so that the hands are overlapped."],
+ ["1","C-EO","只要能安全、有效地做高品質 CPR，原則上<b>就地急救</b>。","In adult cardiac arrest, resuscitation should generally be conducted where the person is found, as long as high-quality CPR can be administered safely and effectively."],
+ ["2a","C-LD","可行且不延誤按壓時，讓病人仰躺在硬面上按壓較好。","In adult cardiac arrest, it is preferred to perform CPR on a firm surface and with the person in the supine position, when feasible and it does not delay chest compressions."],
+ ["2b","C-LD","可考慮把<b>慣用手</b>貼在胸骨上按壓。","In adult cardiac arrest, rescuers may consider placing their dominant hand on the sternum when performing chest compressions."],
+ ["2b","C-LD","俯臥時心跳停止，先翻成仰躺再按壓或許合理；無法安全翻身時，可考慮<b>俯臥 CPR</b>。","For adult patients who experience cardiac arrest while in the prone position, it may be reasonable to turn the patient supine before initiating chest compressions. If the patient cannot be safely turned supine, rescuers may consider performing CPR in the prone position."]],
+ccf:[
+ ["1","C-LD","電擊前、電擊後的按壓暫停，越短越好。","In adult cardiac arrest, preshock and postshock pauses in chest compressions should be as short as possible."],
+ ["1","C-LD","分析心律時，醫護人員摸脈搏<b>不超過 10 秒</b>；沒有明確摸到就立刻恢復按壓。","During rhythm checks for adult cardiac arrest, the health care professional should minimize the time taken to check for a pulse (no more than 10 s), and if the rescuer does not definitely feel a pulse, chest compressions should be restarted immediately."],
+ ["2a","B-R","電擊後<b>立刻恢復按壓</b>，不要停下來檢查電擊後心律，是合理的。","In adults with cardiac arrest, it is reasonable to immediately resume chest compressions after shock administration rather than pause CPR to perform a postshock rhythm check."],
+ ["2a","B-R","有 2 位以上施救者時，約<b>每 2 分鐘</b>（或約 5 個 30:2 循環）換人按壓。","When 2 or more rescuers are available during an adult cardiac arrest, it is reasonable to switch chest compressors approximately every 2 min (or after about 5 cycles of compressions and ventilation at a ratio of 30:2)."],
+ ["2a","C-LD","沒有進階呼吸道時，暫停按壓給 2 次通氣，<b>每次 1 秒</b>。","For adults in cardiac arrest receiving CPR without an advanced airway, it is reasonable to pause compressions to deliver 2 breaths, each given over 1 s."],
+ ["2b","C-LD","CCF 至少 <b>60%</b>。","During adult cardiac arrest, it may be reasonable to perform CPR with a chest compression fraction of at least 60%."],
+ ["2b","C-LD","在有侵入性監測的 ALS 環境以外，CPR 期間摸脈搏的價值資料不足。","Outside of the advanced life support environment, where invasive monitoring is available, there are insufficient data about the value of a pulse check while performing CPR for adult cardiac arrest."]],
+depth:[
+ ["1","B-NR","徒手 CPR 按壓深度<b>至少 5 cm</b>（2 吋），避免超過 <b>6 cm</b>（2.4 吋）。","During manual CPR, rescuers should perform chest compressions to a depth of at least 2 inches, or 5 cm, for an average adult while avoiding excessive chest compression depths (>2.4 inches, or 6 cm)."],
+ ["2a","B-R","使用<b>即時影音回饋裝置</b>優化 CPR 品質，是合理的。","During adult cardiac arrest, it is reasonable to use audiovisual feedback devices for real-time optimization of CPR performance."],
+ ["2a","B-NR","按壓速率 <b>100–120 次/分</b>。","For adults in cardiac arrest, it is reasonable for rescuers to perform chest compressions at a rate of 100 to 120/min."],
+ ["2a","C-LD","讓胸廓<b>完全回彈</b>，例如兩次按壓間不要靠在胸口上。","It can be beneficial for rescuers to allow complete chest wall recoil for adults in cardiac arrest, such as by not leaning on the chest between compressions."],
+ ["2b","C-EO","按壓與回彈／放鬆時間大致相等。","During adult cardiac arrest, it may be reasonable to perform chest compressions so that chest compression and recoil/relaxation times are approximately equal."]],
+vent:[
+ ["2a","C-LD","沒有進階呼吸道時，可用口對口、口對面罩或 BVM 給通氣。","In adult patients in cardiac arrest without an advanced airway, it is reasonable to deliver breaths either by mouth-to-mouth, mouth-to-mask, or bag-mask ventilation."],
+ ["2a","C-LD","潮氣量給到<b>看得見胸部起伏</b>。","When ventilating an adult patient in cardiac arrest, it is reasonable to give enough tidal volume to produce visible chest rise."],
+ ["2a","C-LD","BVM 通氣時，<b>一人用雙手</b>打開呼吸道並封住面罩，另一人擠球。","When delivering ventilations by bag-mask device for an adult in cardiac arrest, it is reasonable for 1 rescuer to use 2 hands to open the airway and seal the mask to the face while a second rescuer squeezes the bag."],
+ ["2b","C-LD","沒有進階呼吸道時，每次通氣給 1 秒。","When providing breaths to an adult in cardiac arrest without an advanced airway, it may be reasonable to give each breath over 1 s."],
+ ["3H","C-LD","避免<b>通氣不足</b>（次數太少或量太小）與<b>過度通氣</b>（次數太多或量太大）。","When providing breaths to adult patients in cardiac arrest, rescuers should avoid hypoventilation (too few breaths or too little volume) or hyperventilation (too many breaths or too large a volume)."]],
+ventsp:[
+ ["2a","C-LD","無法或不適合從嘴巴給氣時，可用口對鼻通氣。","It is reasonable for a rescuer to use mouth-to-nose ventilation if providing breaths through the adult’s mouth is impossible or impractical."],
+ ["2b","C-EO","有氣切造口的成人，可口對造口或面罩對造口通氣。","For an adult with a tracheal stoma who requires breaths, either mouth-to-stoma or face mask–to–stoma ventilation may be reasonable."]],
+resp:[
+ ["1","C-LD","有自發循環（脈搏強、容易摸到）但呼吸停止的成人，醫護人員應給予通氣。","For an adult with spontaneous circulation (ie, strong and easily palpable pulses) and respiratory arrest, the health care professional should provide ventilations."],
+ ["2a","C-LD","<b>每 6 秒 1 次</b>（每分鐘 10 次），每次都看得到胸部起伏。","When providing ventilations for an adult patient with respiratory arrest, it is reasonable for the health care professional to give 1 ventilation every 6 s, or 10 breaths per minute, with each ventilation creating visible chest rise."]],
+ratio:[
+ ["2a","B-NR","放置進階呼吸道（聲門上呼吸道或氣管內管）前，民眾與醫護人員都以 <b>30:2</b> 循環 CPR。","It is reasonable for lay rescuers and health care professionals to perform CPR with cycles of 30 compressions followed by 2 breaths before placement of an advanced airway (supraglottic airway or endotracheal tube)."],
+ ["2b","C-LD","沒有進階呼吸道時，醫護人員可考慮連續按壓加非同步通氣。","For adults in cardiac arrest without an advanced airway, health care professionals may consider the use of continuous chest compressions with asynchronous breaths."]],
+pads:[
+ ["2a","C-LD","貼片（或電擊板）貼在裸露胸部，採<b>前側–側邊或前–後</b>位置；成人貼片直徑 <b>&gt;8 cm</b>。","It is reasonable to place defibrillation paddles or pads on the exposed chest in an anterolateral or anteroposterior position, and to use a paddle or pad electrode diameter more than 8 cm for adults in cardiac arrest."],
+ ["2b","C-EO","貼片時，<b>調整胸罩位置而不脫掉</b>，或許合理。","When placing pads for defibrillation for an adult in cardiac arrest, it might be reasonable to adjust the position of a bra instead of removing it."]],
+cprfirst:[
+ ["1","C-LD","去顫器或 AED 貼上之前，持續 CPR。","For adults in cardiac arrest, CPR is recommended until a defibrillator or AED is applied."],
+ ["2a","B-R","無監測的心跳停止，準備去顫器的同時做一段短時間 CPR。","In unmonitored adult cardiac arrest, it is reasonable to provide a brief period of CPR while a defibrillator is being obtained and readied for use."],
+ ["2a","C-LD","<b>目擊或監測下</b>的 VF／pVT，去顫器已貼上或立即可用時，立即電擊。","For adults in cardiac arrest, immediate defibrillation is reasonable for witnessed or monitored VF/pulseless ventricular tachycardia when a defibrillator is already applied or immediately available."]],
+fbao1:[
+ ["1","B-NR","成人嚴重 FBAO：反覆 <b>5 次背擊、接著 5 次腹戳</b>，直到異物排出或病人失去反應。","For adults with severe FBAO, repeated cycles of 5 back blows (slaps) followed by 5 abdominal thrusts should be performed until the object is expelled or the person becomes unresponsive."],
+ ["1","C-EO","成人嚴重 FBAO 要啟動緊急應變系統。","Rescuers should activate the emergency response system for adults with severe FBAO."],
+ ["1","C-EO","輕度 FBAO：讓病人自己咳，同時觀察是否出現嚴重阻塞的徵象。","For adults with mild FBAO, the person should be allowed to clear the airway by coughing while being observed for signs of severe airway obstruction."]],
+fbao2:[
+ ["1","C-LD","嚴重 FBAO 病人失去反應時，開始 CPR、<b>從按壓開始</b>；還沒人求救的話要啟動緊急應變。","If adults with severe FBAO become unresponsive, rescuers should start CPR, beginning with chest compressions, and activate the emergency response system if no one has done so."],
+ ["1","C-EO","打開呼吸道準備給氣時，移除<b>看得到</b>的異物。","For adults with FBAO receiving CPR, rescuers should remove any visible foreign body when opening the airway to provide breaths."],
+ ["3H","C-LD","<b>不要盲目用手指掏挖</b>。","Blind finger sweeps should not be performed for adults with FBAO."]],
+fbao3:[
+ ["1","C-EO","施救者<b>抱不住病人腹部</b>時：反覆 5 次背擊、接著 <b>5 次胸戳</b>。","If the rescuer is unable to encircle the person’s abdomen, repeated cycles of 5 back blows (slaps) followed by 5 chest thrusts should be used for adults with severe FBAO until the object is expelled or the person becomes unresponsive."],
+ ["1","C-EO","<b>懷孕後期</b>的嚴重 FBAO：反覆 5 次背擊、接著 <b>5 次胸戳</b>。","For adults in the late stages of pregnancy with severe FBAO, repeated cycles of 5 back blows (slaps) followed by 5 chest thrusts should be used until the object is expelled or the person becomes unresponsive."],
+ ["2b","C-LD","抽吸式防噎裝置用於成人 FBAO 的效果與安全性未確立，證據不足以做建議。","Effectiveness and safety of suction-based airway clearance devices have not been established in adults with FBAO. There is insufficient evidence to make a recommendation."]],
+obese:[
+ ["1","C-LD","肥胖成人的 CPR，技術與非肥胖病人<b>相同</b>。","CPR for adults with obesity who are in cardiac arrest should be provided by using the same techniques as for the nonobese patient."],
+ ["2a","C-LD","考慮把病人搬到硬面對開始按壓造成的延誤。","In adults with obesity who are in cardiac arrest, it is reasonable for rescuers to consider the impact of moving the patient to a firm surface on delays in initiation of chest compressions."],
+ ["2b","C-EO","可增加按壓力量以達到足夠深度。","It may be reasonable for rescuers to increase the force of compressions to achieve adequate depth for adult patients with obesity who are in cardiac arrest."],
+ ["3NB","C-LD","院內肥胖病人使用<b>部分背板（CPR board）</b>，沒有比直接在醫院床墊上按壓更好。","For adults with obesity, the use of a partial backboard (or “CPR board”) during IHCA does not provide benefit over performing chest compressions on a hospital mattress."]],
+alt:[
+ ["2b","C-LD","在徒手高品質按壓困難或危險的特定情境，可考慮機械 CPR，但裝設與移除時要嚴格限制中斷。","In adult cardiac arrest, the use of mechanical CPR devices may be considered in specific settings where the delivery of high-quality manual compressions may be challenging or dangerous for the health care professional, as long as rescuers strictly limit interruptions in CPR during deployment and removal of the device."],
+ ["2b","C-LD","單人施救時，可考慮從病人<b>頭頂端</b>按壓（over-the-head）。","For single rescuers, performing compressions from “over-the-head” of the patient may be considered in adult cardiac arrest."],
+ ["2b","C-LD","用腳跟／腳按壓的效果未確立。","The effectiveness of heel/foot compressions is not well established in adult cardiac arrest."],
+ ["3NB","B-R","<b>不建議常規使用機械 CPR 裝置</b>。","The routine use of mechanical CPR devices is not recommended in adult cardiac arrest."]]
+};
+const K={"1":["k1","1"],"2a":["k2a","2a"],"2b":["k2b","2b"],"3NB":["k3","3 無益"],"3H":["k3","3 有害"]};
+document.querySelectorAll(".recs[data-g]").forEach(box=>{
+  box.innerHTML=R[box.dataset.g].map(([c,l,zh,en])=>{const [k,lab]=K[c];
+    return `<div class="rec ${k}"><div class="badge"><span class="cor">${lab}</span><span class="loe">${l}</span></div><div><div class="zh">${zh}</div><div class="en">${en}</div></div></div>`}).join("");
+});
+
+/* nav */
+const secs=[...document.querySelectorAll("[data-nav]")];
+const rail=document.getElementById("rail"), chip=document.getElementById("chipnav");
+secs.forEach((s,i)=>{
+  rail.insertAdjacentHTML("beforeend",`<li><a href="#${s.id}"><span>${String(i).padStart(2,"0")}</span>${s.dataset.nav}</a></li>`);
+  chip.insertAdjacentHTML("beforeend",`<a href="#${s.id}">${s.dataset.nav}</a>`);
+});
+const links=[...rail.querySelectorAll("a")];
+const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){links.forEach(a=>a.classList.toggle("on",a.getAttribute("href")==="#"+e.target.id))}})},{rootMargin:"-30% 0px -60% 0px"});
+secs.forEach(s=>io.observe(s));
+
+/* toggles */
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+function bindToggle(id,cls,key){const b=document.getElementById(id);
+  const apply=on=>{document.documentElement.classList.toggle(cls,on);b.setAttribute("aria-pressed",on)};
+  apply(store.get(key)==="1");
+  b.onclick=()=>{const on=b.getAttribute("aria-pressed")!=="true";apply(on);store.set(key,on?"1":"0")};}
+bindToggle("btn-en","show-en","bls-en"); bindToggle("btn-big","big","bls-big");
+
+/* filter */
+document.querySelectorAll("#filterbar button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#filterbar button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  const f=b.dataset.f;
+  document.querySelectorAll(".recs[data-g] .rec").forEach(r=>r.classList.toggle("dim",f!=="all"&&!r.classList.contains(f)));
+});
+
+/* algorithm tabs */
+document.querySelectorAll("#algotabs button").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("#algotabs button").forEach(x=>x.setAttribute("aria-selected",x===b));
+  document.querySelectorAll(".tabpanel").forEach(p=>p.hidden=p.dataset.p!==b.dataset.t);
+});
+document.querySelectorAll(".subtabs").forEach(g=>g.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+  g.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  g.parentElement.querySelectorAll("[data-view]").forEach(v=>v.hidden=v.dataset.view!==b.dataset.v);
+}));
+
+/* quiz */
+const Q=[
+ ["你一個人發現路倒成人沒反應、只有喘息，手上有手機。下一步？",["先跑去找 AED","開擴音撥 119，同時立刻開始按壓","先做 2 次人工呼吸","先摸頸動脈 30 秒確認"],1,"單獨施救者有手機：啟動緊急應變並立即開始 CPR，從按壓開始（1, C-LD）。瀕死喘息出現在 40–60% 的 OHCA，不要被它騙了。"],
+ ["成人胸外按壓的深度？",["至少 4 cm","至少 5 cm，避免超過 6 cm","至少 6 cm","越深越好"],1,"至少 5 cm、避免 >6 cm（1, B-NR）。<4 cm 與 >6 cm 都與較差存活相關。"],
+ ["按壓速率？",["80–100/min","100–120/min","120–140/min","越快越好"],1,"100–120/min（2a, B-NR）。100–119/min 存活出院最好；121–140 雖然 ROSC 較高，但寫作小組更重視存活。"],
+ ["病人躺在病床上，床該調到多高？",["和施救者腰部同高","病人軀幹約在施救者膝蓋高度","越高越好，方便站著壓","高度不重要"],1,"2025 新強調：軀幹約在施救者膝蓋高度（1, B-NR）；低於膝蓋不超過 10 cm 時按壓深度較好。"],
+ ["醫護人員檢查脈搏的時間上限？",["5 秒","10 秒","15 秒","直到確定為止"],1,"不超過 10 秒，沒有明確摸到就開始／恢復按壓（1, C-LD）。"],
+ ["有脈搏、但沒有正常呼吸的成人，通氣頻率？",["每 3 秒 1 次","每 6 秒 1 次","每 10 秒 1 次","不需要通氣"],1,"每 6 秒 1 次、每分鐘 10 次、每次看得到胸部起伏（2a, C-LD）；每 2 分鐘摸一次脈搏，疑似鴉片類過量給 naloxone。"],
+ ["AED 電擊完成後，下一步？",["立刻摸脈搏","讓 AED 再分析一次心律","立刻恢復胸外按壓","先給 2 次通氣再看心律"],2,"電擊後立刻恢復按壓，不要停下來檢查心律（2a, B-R）；做 2 分鐘直到 AED 提示分析。"],
+ ["清醒成人嚴重哽塞（不能說話、咳不出來），2025 建議怎麼做？",["只做腹戳（哈姆立克）","5 次背擊 + 5 次腹戳，反覆循環","用手指伸進嘴裡掏","先拍胸口 30 下"],1,"2025 改為 5 背擊 + 5 腹戳循環（1, B-NR）；背擊排除率較高、傷害較少，也與兒童指引一致。"],
+ ["懷孕後期的孕婦嚴重哽塞？",["5 次背擊 + 5 次腹戳","5 次背擊 + 5 次胸戳","只做背擊","等她自己咳出來"],1,"懷孕後期或抱不住腹部：5 背擊 + 5 胸戳（1, C-EO）。"],
+ ["哽塞病人失去意識，下列何者「不應該」做？",["開始 CPR，從按壓開始","通氣前移除看得到的異物","盲目用手指掏挖","啟動緊急應變"],2,"盲目手指掏挖是 Class 3: Harm（C-LD）。按壓本身就能產生壓力把異物推出。"],
+ ["懷疑頸椎受傷的無反應病人，受訓施救者打開呼吸道的首選？",["壓額抬下巴","推下顎法、不仰頭","直接上頸圈","不處理呼吸道"],1,"推下顎不仰頭（1, C-EO）；若推下顎加輔助器仍打不開，改壓額抬下巴，呼吸道優先。民眾不應上硬式頸圈（3: Harm）。"],
+ ["關於機械 CPR，2025 的立場？",["所有 OHCA 都應使用","不建議常規使用；特定情境可考慮","與徒手 CPR 完全相同，可任意選擇","已被禁止"],1,"常規使用 3: No Benefit（B-R）；搬運中、人力不足、危險或高傳染風險等情境可考慮（2b），但要嚴格限制中斷。"],
+ ["肥胖病人在院內心跳停止，下列何者正確？",["要用不同的按壓技術","放部分背板（CPR board）比較好","技術相同，可能需要更大力量","不要按壓"],2,"技術相同（1, C-LD）、可增加力量（2b）；部分背板沒有比床墊好（3: No Benefit）。"],
+ ["女性病人要貼 AED，穿著胸罩怎麼辦？",["一定要完全脫掉才能電擊","可以調整胸罩位置，讓貼片直接貼皮膚","貼在胸罩外面就好","女性不適用 AED"],1,"調整胸罩位置而不脫掉，或許合理（2b, C-EO）。貼片仍要直接貼在皮膚上。"],
+ ["CCF（胸外按壓比率）最低目標？",["40%","60%","80%","100%"],1,"至少 60%（2b, C-LD）；高效團隊可達 >80%。"],
+ ["兩人以上時，多久換人按壓？",["每 30 秒","約每 2 分鐘（約 5 個 30:2 循環）","每 5 分鐘","累了再換"],1,"約每 2 分鐘（2a, B-R）。深度在 90–120 秒後開始下降，配合心律分析的暫停換手。"]
+];
+const qb=document.getElementById("quizbox"), sc=document.getElementById("score");
+let ans=0,cor=0;
+function renderQuiz(){ans=0;cor=0;sc.textContent="0 / "+Q.length;
+  qb.innerHTML=Q.map((q,i)=>`<div class="q" data-i="${i}"><div class="stem">${i+1}. ${q[0]}</div><div class="opts">${q[1].map((o,j)=>`<button class="opt" data-j="${j}">${String.fromCharCode(65+j)}. ${o}</button>`).join("")}</div><div class="exp" hidden>${q[3]}</div></div>`).join("");
+  qb.querySelectorAll(".q").forEach(el=>{const q=Q[el.dataset.i];
+    el.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{const j=+b.dataset.j;
+      el.querySelectorAll(".opt").forEach(x=>{x.disabled=true;if(+x.dataset.j===q[2])x.classList.add("right")});
+      if(j!==q[2])b.classList.add("wrong");else cor++;
+      ans++;sc.textContent=cor+" / "+Q.length+(ans===Q.length?" 完成":"");
+      el.querySelector(".exp").hidden=false;});});}
+renderQuiz(); document.getElementById("quiz-reset").onclick=renderQuiz;
+
+/* metronome */
+let ctx=null,timer=null,bpm=110;
+const dot=document.getElementById("m-toggle"), icon=document.getElementById("m-icon");
+function tick(){ if(ctx){const o=ctx.createOscillator(),g=ctx.createGain();o.frequency.value=1000;g.gain.setValueAtTime(.4,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.05);o.connect(g).connect(ctx.destination);o.start();o.stop(ctx.currentTime+.06);}
+  dot.classList.add("beat");setTimeout(()=>dot.classList.remove("beat"),90);}
+function start(){stop();timer=setInterval(tick,60000/bpm);tick();icon.innerHTML='<rect x="3" y="3" width="10" height="10" fill="#fff"/>';}
+function stop(){if(timer)clearInterval(timer);timer=null;icon.innerHTML='<path d="M4 2l10 6-10 6z" fill="#fff"/>';}
+dot.onclick=()=>{try{ctx=ctx||new (window.AudioContext||window.webkitAudioContext)();ctx.resume&&ctx.resume()}catch(e){ctx=null}timer?stop():start();};
+document.querySelectorAll("#metro [data-bpm]").forEach(b=>b.onclick=()=>{bpm=+b.dataset.bpm;document.querySelectorAll("#metro [data-bpm]").forEach(x=>x.setAttribute("aria-pressed",x===b));if(timer)start();});
+</script>
